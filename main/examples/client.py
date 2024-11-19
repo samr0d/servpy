@@ -10,11 +10,10 @@ clnt.connect()
 while True:
     data = clnt.recv(2048,"utf-8")
     print(data)
-    rspns = input("[SrvPy]> ")
+    rspns = input("[ClntPy]> ")
     if rspns == "close":
         #We stop the client
         clnt.disconnect()
-    else: continue
     clnt.send(rspns)
 
 clnt.disconnect()

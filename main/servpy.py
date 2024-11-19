@@ -1,13 +1,14 @@
 import socket
 
 class Server:
-    def __init__(self,HOST=str(),PORT=int(),IPvX=int(),PROTO=str(),NUM_DEVICES=int()):
+    def __init__(self,HOST: str,PORT: int,IPvX: int,PROTO: int,NUM_DEVICES: int):
         self._server = None
         self._host = HOST
         self._port = PORT
         self._proto = PROTO
         self._ipvx = IPvX
-        self._num_devices = NUM_DEVICES        
+        self._num_devices = NUM_DEVICES    
+        self.client_socket = None    
         if IPvX == 4:
             if PROTO == "tcp":
                 try:
@@ -45,8 +46,8 @@ class Server:
                 self._server.bind((self._host,self._port))
                 self._server.listen(self._num_devices)
                 global clnt_connection 
-                (client_socket, client_addr) = self._server.accept()
-                clnt_connection = (client_socket, client_addr)
+                self.client_socket, client_addr = self._server.accept()
+                clnt_connection = (self.client_socket, client_addr)
             except socket.error as e:
                 print(f"ERROR TURNNING ON SERVER: {e}")
         else:
@@ -65,7 +66,7 @@ class Server:
         if self._server:
             if INDATA is not None:
                 try:
-                    packet = self._server.recv(INDATA).decode(DECODING)
+                    packet = self.client_socket.recv(INDATA).decode(DECODING)
                     return packet
                 except Exception as e:
                     print(f"ERROR RECIVING DATA: {e}")

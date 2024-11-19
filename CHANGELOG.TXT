@@ -1,0 +1,4 @@
+2024.11.18  Mónica Gómez (Autumn64):
+    - Modificado `clnt_connection` por `self.client_socket` para que la conexión servidor-cliente
+    se haga correctamente. Al ser `clnt_connection` una tupla no se puede utilizar para la
+    recepción de mensajes.
